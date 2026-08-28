@@ -1,4 +1,5 @@
 import time
+import random
 import os
 import shutil
 from watchdog.observers import Observer
@@ -25,7 +26,7 @@ class FileMovementHandler(FileSystemEventHandler):
         name, extension = os.path.splitext(event.src_path)
 
         time.sleep(1)
-        for key, value in dir_tree.itens():
+        for key, value in dir_tree.items():
 
             time.sleep(1)
             if extension in value:
@@ -39,6 +40,38 @@ class FileMovementHandler(FileSystemEventHandler):
 
                 time.sleep(1)
 
+                if os.path.exists(path2):
+                    print("Diretório existe...")
+                    time.sleep(1)
+
+                    if os.path.exists(path3):
+                        print("Arquivo Já Existe em " + key + "....")
+                        print("Renomeando Arquivo " + file_name + "....")
+
+                        new_file_name = os.path.splitext(file_name)[0] + str(random.randint(0, 999)) + os.path.splitext(file_name)[1]
+
+                        path4 = to_dir + "/" + key + "/" + new_file_name
+
+                        print("Movendo " + new_file_name + "....")
+
+                        shutil.move(path1, path3)
+                        time.sleep(1)
+                    else: 
+                        os.makedirs(path2)
+                        print("Movendo " + file_name + "....")
+                        shutil.move(path1, path3)
+                        time.sleep(1)
+                else:
+                    print("Criando Diretório...")
+                    os.makedirs(path2)
+                    print("Movendo " + file_name + "....")
+                    shutil.move(path1, path3)
+                    time.sleep(1)
+
+
+                """
+
+                
                 if os.path.exists(path3):
 
                     print("Arquivo Já Existe em " + key + "....")
@@ -62,6 +95,7 @@ class FileMovementHandler(FileSystemEventHandler):
                 print("Movendo " + file_name + "....")
                 shutil.move(path1, path3)
                 time.sleep(1)
+            """
 
 # Inicializar a classe gerenciadora de eventos
 event_handler = FileMovementHandler()
@@ -76,6 +110,10 @@ observer.schedule(event_handler, from_dir, recursive=True)
 observer.start()
 
 # Feedback visual com 2 segundos de "delay"
-while True:
-    time.sleep(2)
-    print("Executando...")
+try:
+    while True:
+        time.sleep(2)
+        print("Executando...")
+except KeyboardInterrupt:
+    print("Interrompido!")
+    observer.stop()
