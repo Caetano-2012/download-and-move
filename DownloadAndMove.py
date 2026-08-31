@@ -57,13 +57,13 @@ class FileMovementHandler(FileSystemEventHandler):
                         shutil.move(path1, path4)
                         time.sleep(1)
                     else: 
-                        os.makedirs(path2)
+                        os.makedirs(path2, exist_ok=True)
                         print("Movendo " + file_name + "....")
                         shutil.move(path1, path3)
                         time.sleep(1)
                 else:
                     print("Criando Diretório...")
-                    os.makedirs(path2)
+                    os.makedirs(path2, exist_ok=True)
                     print("Movendo " + file_name + "....")
                     shutil.move(path1, path3)
                     time.sleep(1)
