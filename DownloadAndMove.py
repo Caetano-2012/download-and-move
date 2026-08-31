@@ -54,7 +54,7 @@ class FileMovementHandler(FileSystemEventHandler):
 
                         print("Movendo " + new_file_name + "....")
 
-                        shutil.move(path1, path3)
+                        shutil.move(path1, path4)
                         time.sleep(1)
                     else: 
                         os.makedirs(path2)
